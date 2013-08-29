@@ -27,7 +27,8 @@ var _ = { };
     if ( array.length === undefined ) return false;
     if ( n === undefined ) return array[array.length - 1];
     if (n === 0) return [];
-    return array.slice(-n);
+    //return array.slice(-n);
+    return _.first(array.reverse(), n).reverse();
   };
 
   // Call iterator(value, key, collection) for each element of collection.
@@ -52,15 +53,31 @@ var _ = { };
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
-    if(!Array.isArray(array)) return false;
-    for (var i = 0; i < array.length; i++) {
-      if (array[i] === target) return i;
-    }
-    return -1;
+    
+    // my original function:
+    //if(!Array.isArray(array)) return false;
+    //for (var i = 0; i < array.length; i++) {
+    //  if (array[i] === target) return i;
+    //}
+    //return -1;
+
+    // improvement:
+    var index = -1;
+    _.each(array, function iterator(value, key, array) {
+      if (value === target && array[index] !== target) {
+        index = key;
+        //break;
+      }
+    })
+    return index;
   };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
+    if(!Array.isArray(array)) return false;
+    each(collection, function test(value, key, collection) {
+      // 
+    })
   };
 
   // Return all elements of an array that don't pass a truth test.
