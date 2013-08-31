@@ -85,15 +85,15 @@ var _ = { };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, iterator) {
-    // TIP: see if you can re-use _.select() here, without simply
-    // copying code in and modifying it
-    if(!Array.isArray(collection)) return false;
-    _.each(collection, function (value, key, collection) {
-        if(iterator(value)) {
-          collection.splice(key, 1);
-        }
-    })
-    return collection;
+      var failedTest = []; // copy collection to retain for future comparison
+      for (var i = 0; i < collection.length; i++) {
+        failedTest[i] = collection[i];
+      }
+      var passedTest = _.filter(collection, iterator);
+      for (var i = 0; i < failedTest.length; i++) {
+        if(_.indexOf(passedTest, failedTest[i]) > -1) failedTest.splice(i, 1);
+      }
+      return failedTest;
   };
 
   // Produce a duplicate-free version of the array.
@@ -111,7 +111,11 @@ var _ = { };
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
-    
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+      result[i] = iterator(array[i]);
+    }
+    return result;
   };
 
   /*
@@ -134,6 +138,13 @@ var _ = { };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
+    //console.log(methodName);
+    //console.log(typeof(methodName));
+    //console.log(new Function(methodName));
+    //var exec = methodName + "()"
+    //console.log(exec);
+    console.log(_.map(list, new Function(list, methodName + "()")));
+    //return _.map(list, new Function(list, methodName + "()"));
   };
 
   // Reduces an array or object to a single value by repetitively calling
