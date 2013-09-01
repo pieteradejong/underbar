@@ -105,7 +105,6 @@ var _ = { };
       return res;
   };
 
-
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
     // map() is a useful primitive iteration function that works a lot
@@ -138,13 +137,17 @@ var _ = { };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
-    //console.log(methodName);
-    //console.log(typeof(methodName));
-    //console.log(new Function(methodName));
-    //var exec = methodName + "()"
-    //console.log(exec);
-    console.log(_.map(list, new Function(list, methodName + "()")));
+    //return _.map(list, new Function("array", methodName + "(array);"));
+    return _.map(list, (new Function(methodName)).apply(args));
+    //console.log(_.map(list, new Function(list, methodName + "()")));
     //return _.map(list, new Function(list, methodName + "()"));
+    //console.log(new Function("arr", "arr.sort()"));
+
+    //var sorter = new Function("arr", "arr.sort()");
+
+    //fnc.apply()
+    //return _.map(list, function(array){array.sort();});
+    //function.apply(args);
   };
 
   // Reduces an array or object to a single value by repetitively calling
