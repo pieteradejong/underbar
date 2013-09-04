@@ -310,6 +310,19 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    // JS has 5 primitive datatypes: string, number, boolean, null, undefined
+
+    var storedValues = {};
+    var arg;
+    var result;
+    return function() {
+      arg = arguments[0];
+      if (!storedValues.hasOwnProperty(arg)) {
+        result = func.apply(this, arguments);
+        storedValues[arg] = result;
+      }
+      return result;
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
